@@ -2,18 +2,22 @@ package com.mvit.mihajlo.jelovnik.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.mvit.mihajlo.jelovnik.R;
 import com.mvit.mihajlo.jelovnik.providers.FoodProvider;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -22,6 +26,9 @@ import java.util.List;
 
 public class MainFragment extends Fragment {
 
+    // Position of the item to be displayed in the detail fragment
+    private int position = 5;
+
     OnItemSelectedListener listener;
 
     // onActivityCreated method is a life-cycle method that is called when the fragment's activity has been created and this fragment's view hierarchy instantiated.
@@ -29,6 +36,17 @@ public class MainFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
 
         super.onActivityCreated(savedInstanceState);
+
+        // Finds "ivImage" ImageView and sets "imageDrawable" property
+        ImageView ivImage = (ImageView) getView().findViewById(R.id.iv_image1);
+        InputStream is = null;
+        try {
+            is = getActivity().getAssets().open(FoodProvider.getFoodById(position).getImage());
+            Drawable drawable = Drawable.createFromStream(is, null);
+            ivImage.setImageDrawable(drawable);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         // Loads fruits from array resource
         final List<String> foodNames = FoodProvider.getFoodNames();
@@ -65,10 +83,6 @@ public class MainFragment extends Fragment {
     public void onAttach(Activity activity) {
 
         super.onAttach(activity);
-
-        // Shows a toast message (a pop-up message)
-        Toast.makeText(getActivity(), "MasterFragment.onAttach()", Toast.LENGTH_SHORT).show();
-
         try {
             listener = (OnItemSelectedListener) activity;
         } catch (ClassCastException e) {

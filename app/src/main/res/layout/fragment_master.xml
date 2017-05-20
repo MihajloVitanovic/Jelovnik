@@ -4,11 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- ImageView displays an arbitrary image, such as an icon. -->
+    <ImageView
+        android:id="@+id/iv_image1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"/>
+
     <!-- ListView displays a list of scrollable items. The list items are automatically inserted to
     the list using an Adapter that pulls content from a source such as an array or database query -->
     <ListView
         android:id="@+id/foodList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></ListView>
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
